@@ -242,7 +242,7 @@ Other causes can be:
 - Operating system bugs
 - Admin error (e.g., directly modifying CometBFT data-directory contents)
 
-(Source: <https://wiki.postgresql.org/wiki/Corruption>)
+(Source: https://wiki.postgresql.org/wiki/Corruption)
 
 ### WAL Corruption
 

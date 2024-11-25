@@ -1,9 +1,7 @@
 ---
-order: 2
-title: CometBFT How-to Guides
-description: How-to Guides
-parent:
-    order: 2
+order: 1
+title: Guides
+description: CometBFT How-to Guides
 ---
 
 # How-To Guides

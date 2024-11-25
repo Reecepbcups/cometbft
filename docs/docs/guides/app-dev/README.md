@@ -1,5 +1,6 @@
 ---
 order: false
+title: Apps
 parent:
   order: 3
 ---

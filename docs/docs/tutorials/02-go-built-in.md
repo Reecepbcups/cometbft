@@ -1,8 +1,8 @@
 ---
-order: 6
+sidebar_position: 2
 ---
 
-# Creating an application in Go
+# Creating a built-in application in Go
 
 ## Guide Assumptions
 
@@ -33,20 +33,23 @@ On the one hand, to get maximum performance you can run your application in
 the same process as the CometBFT, as long as your application is written in Go.
 [Cosmos SDK](https://github.com/cosmos/cosmos-sdk) is written
 this way.
-If that is the way you wish to proceed, use the [Creating a built-in application in Go](go-built-in.md) guide instead of this one.
+This is the approach followed in this tutorial.
 
 On the other hand, having a separate application might give you better security
 guarantees as two processes would be communicating via established binary protocol.
 CometBFT will not have access to application's state.
-This is the approach followed in this tutorial.
+If that is the way you wish to proceed, use the [Creating an application in Go](go.md) guide instead of this one.
 
 ## 1.0 Installing Go
 
-Verify that you have the latest version of Go installed (refer to the [official guide for installing Go](https://golang.org/doc/install)), you should see an output similar to this one (the `go version` might be a slight different depending on the Go you have installed and the computer platform):
+Verify that you have the latest version of Go installed (refer to the [official guide for installing Go](https://golang.org/doc/install)), ,
+ou should see an output similar to this one (the `go version` might be a slight different depending on the Go you
+have installed and the computer platform):
 
 ```bash
 $ go version
 go version go1.23.1 darwin/amd64
+
 ```
 
 ## 1.1 Installing CometBFT
@@ -107,17 +110,19 @@ Run the commands below to create the go module file (`go.mod`)
 
 ```bash
 go mod init kvstore
-````
+```
 
 This should an output similar to this.
 
 **NOTE**: No need to run `go mod tidy` at this time, just ignore it for now.
+
 ```bash
 go: creating new go.mod: module kvstore
 go: to add module requirements and sums:
 	go mod tidy
 ```
 
+go 1.23.1
 Now, lets add `cometbft` as a dependency to our project. Run the `go get` command below:
 
 ```bash
@@ -131,6 +136,7 @@ or `v1.0.1`
 go: added github.com/cometbft/cometbft v1.0.0
 ```
 
+`
 After running the above commands you will see two generated files, `go.mod` and `go.sum`.
 The go.mod file should look similar to:
 
@@ -138,7 +144,6 @@ The go.mod file should look similar to:
 module kvstore
 
 go 1.23.1
-
 
 require github.com/cometbft/cometbft v1.0.0 // indirect
 ```
@@ -167,8 +172,6 @@ Hello, CometBFT
 
 ## 1.3 Writing a CometBFT application
 
-Now, let's start adding some logic to our application.
-
 CometBFT communicates with the application through the Application
 BlockChain Interface (`ABCI`). The messages exchanged through the interface are
 defined in the ABCI [protobuf
@@ -176,7 +179,8 @@ file](https://github.com/cometbft/cometbft/blob/main/proto/cometbft/abci/v1/type
 
 We begin by creating the basic scaffolding for an ABCI application by
 creating a new type, `KVStoreApplication`, which implements the
-methods defined by the [abcitypes.Application](https://github.com/cometbft/cometbft/blob/main/abci/types/application.go) interface.
+methods defined by the [abcitypes.Application](https://github.com/cometbft/cometbft/blob/main/abci/types/application.go)
+interface.
 
 Create a file called `app.go` with the following contents:
 
@@ -205,7 +209,7 @@ func (app *KVStoreApplication) Query(_ context.Context, req *abcitypes.QueryRequ
 }
 
 func (app *KVStoreApplication) CheckTx(_ context.Context, check *abcitypes.CheckTxRequest) (*abcitypes.CheckTxResponse, error) {
-    return &abcitypes.CheckTxResponse{Code: 0}, nil
+	return &abcitypes.CheckTxResponse{Code: 0}, nil
 }
 
 func (app *KVStoreApplication) InitChain(_ context.Context, chain *abcitypes.InitChainRequest) (*abcitypes.InitChainResponse, error) {
@@ -241,7 +245,7 @@ func (app *KVStoreApplication) LoadSnapshotChunk(_ context.Context, chunk *abcit
 }
 
 func (app *KVStoreApplication) ApplySnapshotChunk(_ context.Context, chunk *abcitypes.ApplySnapshotChunkRequest) (*abcitypes.ApplySnapshotChunkResponse, error) {
-	return &abcitypes.ApplySnapshotChunkResponse{Result: abcitypes.APPLY_SNAPSHOT_CHUNK_RESULT_ACCEPT}, nil
+    return &abcitypes.ApplySnapshotChunkResponse{Result: abcitypes.APPLY_SNAPSHOT_CHUNK_RESULT_ACCEPT}, nil
 }
 
 func (app KVStoreApplication) ExtendVote(_ context.Context, extend *abcitypes.ExtendVoteRequest) (*abcitypes.ExtendVoteResponse, error) {
@@ -282,11 +286,11 @@ Our application will need to write its state out to persistent storage so that i
 can stop and start without losing all of its data.
 
 For this tutorial, we will use [BadgerDB](https://github.com/dgraph-io/badger), a
-a fast embedded key-value store.
+fast embedded key-value store.
 
 First, add Badger as a dependency of your go module using the `go get` command:
 
-`go get github.com/dgraph-io/badger/v4`
+`go get github.com/dgraph-io/badger/v3`
 
 Next, let's update the application and its constructor to receive a handle to the database, as follows:
 
@@ -309,7 +313,7 @@ is completed. Don't worry about it for now, we'll get to that later.
 Next, update the `import` stanza at the top to include the Badger library:
 
 ```go
-import (
+import(
     "context"
     abcitypes "github.com/cometbft/cometbft/abci/types"
     "github.com/dgraph-io/badger/v4"
@@ -319,7 +323,7 @@ import (
 Finally, update the `main.go` file to invoke the updated constructor:
 
 ```go
-_ = NewKVStoreApplication(nil)
+    _ = NewKVStoreApplication(nil)
 ```
 
 ### 1.3.2 CheckTx
@@ -340,6 +344,7 @@ func (app *KVStoreApplication) isValid(tx []byte) uint32 {
     if len(parts) != 2 {
         return 1
     }
+
     return 0
 }
 ```
@@ -369,10 +374,10 @@ information on why the transaction was rejected.
 Note that `CheckTx` does not execute the transaction, it only verifies that the transaction could be executed. We do
 not know yet if the rest of the network has agreed to accept this transaction into a block.
 
-Finally, make sure to add the bytes package to the `import` stanza at the top of `app.go`:
+Finally, make sure to add the `bytes` package to the `import` stanza at the top of `app.go`:
 
 ```go
-import (
+import(
     "bytes"
     "context"
     abcitypes "github.com/cometbft/cometbft/abci/types"
@@ -383,9 +388,8 @@ import (
 ### 1.3.3 FinalizeBlock
 
 When the CometBFT consensus engine has decided on the block, the block is transferred to the
-application via the `FinalizeBlock` method.
-`FinalizeBlock` is an ABCI method introduced in CometBFT `v0.38.0`. This replaces the functionality provided previously (pre-`v0.38.0`) by the combination of ABCI methods `BeginBlock`, `DeliverTx`, and `EndBlock`.
-`FinalizeBlock`'s parameters are an aggregation of those in `BeginBlock`, `DeliverTx`, and `EndBlock`.
+application via `FinalizeBlock`.
+`FinalizeBlock` is an ABCI method introduced in CometBFT `v0.38.0`. This replaces the functionality provided previously (pre-`v0.38.0`) by the combination of ABCI methods `BeginBlock`, `DeliverTx`, and `EndBlock`. `FinalizeBlock`'s parameters are an aggregation of those in `BeginBlock`, `DeliverTx`, and `EndBlock`.
 
 This method is responsible for executing the block and returning a response to the consensus engine.
 Providing a single `FinalizeBlock` method to signal the finalization of a block simplifies the ABCI interface and increases flexibility in the execution pipeline.
@@ -397,7 +401,7 @@ The `FinalizeBlock` method executes the block, including any necessary transacti
 Note that, to implement these calls in our application we're going to make use of Badger's transaction mechanism. We will always refer to these as Badger transactions, not to confuse them with the transactions included in the blocks delivered by CometBFT, the _application transactions_.
 
 First, let's create a new Badger transaction during `FinalizeBlock`. All application transactions in the current block will be executed within this Badger transaction.
-Next, let's modify `FinalizeBlock` to add the `key` and `value` to the database transaction every time our application processes a new application transaction from the list received through `FinalizeBlockRequest`.
+Next, let's modify `FinalizeBlock` to add the `key` and `value` to the Badger transaction every time our application processes a new application transaction from the list received through `FinalizeBlockRequest`.
 
 Note that we check the validity of the transaction _again_ during `FinalizeBlock`.
 
@@ -408,7 +412,7 @@ func (app *KVStoreApplication) FinalizeBlock(_ context.Context, req *abcitypes.F
     app.onGoingBlock = app.db.NewTransaction(true)
     for i, tx := range req.Txs {
         if code := app.isValid(tx); code != 0 {
-            log.Printf("Error in tx in if")
+            log.Printf("Error: invalid transaction index %v", i)
             txs[i] = &abcitypes.ExecTxResult{Code: code}
         } else {
             parts := bytes.SplitN(tx, []byte("="), 2)
@@ -418,10 +422,11 @@ func (app *KVStoreApplication) FinalizeBlock(_ context.Context, req *abcitypes.F
             if err := app.onGoingBlock.Set(key, value); err != nil {
                 log.Panicf("Error writing to database, unable to execute tx: %v", err)
             }
+
             log.Printf("Successfully added key %s with value %s", key, value)
 
             // Add an event for the transaction execution.
-			// Multiple events can be emitted for a transaction, but we are adding only one event
+            // Multiple events can be emitted for a transaction, but we are adding only one event
             txs[i] = &abcitypes.ExecTxResult{
                 Code: 0,
                 Events: []abcitypes.Event{
@@ -433,13 +438,13 @@ func (app *KVStoreApplication) FinalizeBlock(_ context.Context, req *abcitypes.F
                         },
 					},
 				},
-            }
+			}
         }
     }
 
     return &abcitypes.FinalizeBlockResponse{
-        TxResults:      txs,
-        NextBlockDelay: 1 * time.Second,
+      TxResults:        txs,
+      NextBlockDelay:   1 * time.Second,
     }, nil
 }
 ```
@@ -448,14 +453,17 @@ func (app *KVStoreApplication) FinalizeBlock(_ context.Context, req *abcitypes.F
 
 Transactions are not guaranteed to be valid when they are delivered to an application, even if they were valid when they were proposed.
 
-This can happen if the application state is used to determine transaction validity. The application state may have changed between the initial execution of `CheckTx` and the transaction delivery in `FinalizeBlock` in a way that rendered the transaction no longer valid.
+This can happen if the application state is used to determine transaction validity.
+The application state may have changed between the initial execution of `CheckTx` and the transaction delivery in `FinalizeBlock` in a way that rendered the transaction no longer valid.
 
 **Note** that `FinalizeBlock` cannot yet commit the Badger transaction we were building during the block execution.
 
-Other methods, such as `Query`, rely on a consistent view of the application's state, the application should only update its state by committing the Badger transactions when the full block has been delivered and the `Commit` method is invoked.
+Other methods, such as `Query`, rely on a consistent view of the application's state, the application should only update its state by committing the Badger transactions when the full block has been delivered and the Commit method is invoked.
 
-The `Commit` method tells the application to make permanent the effects of the application transactions.
-Let's update the method to terminate the pending Badger transaction and persist the resulting state:
+The `Commit` method tells the application to make permanent the effects of
+the application transactions.
+Let's update the method to terminate the pending Badger transaction and
+persist the resulting state:
 
 ```go
 func (app KVStoreApplication) Commit(_ context.Context, commit *abcitypes.CommitRequest) (*abcitypes.CommitResponse, error) {
@@ -467,9 +475,8 @@ Finally, make sure to add the `log` and `errors` libraries to the `import` stanz
 
 ```go
 import (
-    "bytes"
     "context"
-	"errors"
+    "errors"
     abcitypes "github.com/cometbft/cometbft/abci/types"
     "github.com/dgraph-io/badger/v4"
     "log"
@@ -480,6 +487,8 @@ You may have noticed that the application we are writing will crash if it receiv
 an unexpected error from the Badger database during the `FinalizeBlock` or `Commit` methods.
 This is not an accident. If the application received an error from the database, there
 is no deterministic way for it to make progress so the only safe option is to terminate.
+Once the application is restarted, the transactions in the block that failed execution will
+be re-executed and should succeed if the Badger error was transient.
 
 ### 1.3.4 Query
 
@@ -526,7 +535,7 @@ included in blocks, it groups some of these transactions and then gives the appl
 to modify the group by invoking `PrepareProposal`.
 
 The application is free to modify the group before returning from the call, as long as the resulting set
-does not use more bytes than `PrepareProposalRequest.max_tx_bytes'.
+does not use more bytes than `PrepareProposalRequest.max_tx_bytes`
 For example, the application may reorder, add, or even remove transactions from the group to improve the
 execution of the block once accepted.
 
@@ -538,8 +547,8 @@ func (app *KVStoreApplication) PrepareProposal(_ context.Context, proposal *abci
 }
 ```
 
-Once a proposed block is received by a node, the proposal is passed to the
-application to determine its validity before voting to accept the proposal.
+Once a proposed block is received by a node, the proposal is passed to the application to give
+its blessing before voting to accept the proposal.
 
 This mechanism may be used for different reasons, for example to deal with blocks manipulated
 by malicious nodes, in which case the block should not be considered valid.
@@ -557,17 +566,18 @@ func (app *KVStoreApplication) ProcessProposal(_ context.Context, proposal *abci
 Please note that in the method signature for the ABCI methods, there is a response and an error return, such as
 `(*abcitypes.[Method]Response, error)`. Some of the ABCI methods' responses might include a field that can return
 an error in the response, such as the `Code` field in the `CheckTxResponse`. The application can use the `Code`
-field to signal CometBFT that the transaction was rejected. Another example is `FinalizeBlockResponse`, which has a `TxResults` array field with each result containing a `Code` field that can be used by the application
-to signal that a transaction didn't execute properly. Or `QueryResponse`, which also includes
+field to signal CometBFT that the transaction was rejected. Other examples are the `TxResults` in the
+`FinalizeBlockResponse`, the `ExecTxResult` that also has a `Code` field which can be used by the application
+to signal that the transactions didn't execute properly, or the `QueryResponse`. The `QueryResponse` also includes
 a `Code` field to signal that a query to the application was unsuccessful or it could not find the information.
 
 The `error` return, as in `(*abcitypes.[Method]Response, error)`, can be used if there are unrecoverable errors.
 In these cases, the application should abort to prevent further unintended consequences.
 
-## 1.4 Starting an application and a CometBFT instance
+## 1.4 Starting an application and a CometBFT instance in the same process
 
 Now that we have the basic functionality of our application in place, let's put
-it all together inside our `main.go` file.
+it all together inside of our `main.go` file.
 
 Change the contents of your `main.go` file to the following.
 
@@ -575,9 +585,12 @@ Change the contents of your `main.go` file to the following.
 package main
 
 import (
+    "context"
     "flag"
     "fmt"
-    abciserver "github.com/cometbft/cometbft/abci/server"
+    "github.com/cometbft/cometbft/p2p"
+    "github.com/cometbft/cometbft/privval"
+    "github.com/cometbft/cometbft/proxy"
     "log"
     "os"
     "os/signal"
@@ -585,47 +598,90 @@ import (
     "syscall"
 
     "github.com/dgraph-io/badger/v4"
+    "github.com/spf13/viper"
+    cfg "github.com/cometbft/cometbft/config"
+    cmtflags "github.com/cometbft/cometbft/libs/cli/flags"
     cmtlog "github.com/cometbft/cometbft/libs/log"
+    nm "github.com/cometbft/cometbft/node"
 )
 
 var homeDir string
-var socketAddr string
 
 func init() {
-    flag.StringVar(&homeDir, "kv-home", "", "Path to the kvstore directory (if empty, uses $HOME/.kvstore)")
-    flag.StringVar(&socketAddr, "socket-addr", "unix://example.sock", "Unix domain socket address (if empty, uses \"unix://example.sock\"")
+    flag.StringVar(&homeDir, "cmt-home", "", "Path to the CometBFT config directory (if empty, uses $HOME/.cometbft)")
 }
 
 func main() {
     flag.Parse()
     if homeDir == "" {
-        homeDir = os.ExpandEnv("$HOME/.kvstore")
+        homeDir = os.ExpandEnv("$HOME/.cometbft")
     }
 
+    config := cfg.DefaultConfig()
+    config.SetRoot(homeDir)
+    viper.SetConfigFile(fmt.Sprintf("%s/%s", homeDir, "config/config.toml"))
+
+    if err := viper.ReadInConfig(); err != nil {
+        log.Fatalf("Reading config: %v", err)
+    }
+    if err := viper.Unmarshal(config); err != nil {
+        log.Fatalf("Decoding config: %v", err)
+    }
+    if err := config.ValidateBasic(); err != nil {
+        log.Fatalf("Invalid configuration data: %v", err)
+    }
     dbPath := filepath.Join(homeDir, "badger")
     db, err := badger.Open(badger.DefaultOptions(dbPath))
+
     if err != nil {
         log.Fatalf("Opening database: %v", err)
     }
-
     defer func() {
         if err := db.Close(); err != nil {
-            log.Fatalf("Closing database: %v", err)
+            log.Printf("Closing database: %v", err)
         }
     }()
 
     app := NewKVStoreApplication(db)
-    logger := cmtlog.NewLogger(os.Stdout)
 
-    server := abciserver.NewSocketServer(socketAddr, app)
-    server.SetLogger(logger)
+    pv := privval.LoadFilePV(
+        config.PrivValidatorKeyFile(),
+        config.PrivValidatorStateFile(),
+    )
 
-    if err := server.Start(); err != nil {
-        fmt.Fprintf(os.Stderr, "error starting socket server: %v", err)
-
-        os.Exit(1)
+    nodeKey, err := nodekey.LoadNodeKey(config.NodeKeyFile())
+    if err != nil {
+        log.Fatalf("failed to load node's key: %v", err)
     }
-    defer server.Stop()
+
+    logger := cmtlog.NewLogger(os.Stdout)
+    logger, err = cmtflags.ParseLogLevel(config.LogLevel, logger, cfg.DefaultLogLevel)
+
+    if err != nil {
+        log.Fatalf("failed to parse log level: %v", err)
+    }
+
+    node, err := nm.NewNode(
+        context.Background(),
+        config,
+        pv,
+        nodeKey,
+        proxy.NewLocalClientCreator(app),
+        nm.DefaultGenesisDocProviderFunc(config),
+        cfg.DefaultDBProvider,
+        nm.DefaultMetricsProvider(config.Instrumentation),
+        logger,
+    )
+
+    if err != nil {
+        log.Fatalf("Creating node: %v", err)
+    }
+
+    node.Start()
+    defer func() {
+        node.Stop()
+        node.Wait()
+    }()
 
     c := make(chan os.Signal, 1)
     signal.Notify(c, os.Interrupt, syscall.SIGTERM)
@@ -635,7 +691,26 @@ func main() {
 
 This is a huge blob of code, so let's break it down into pieces.
 
-First, we initialize the Badger database and create an app instance:
+First, we use [viper](https://github.com/spf13/viper) to load the CometBFT configuration files, which we will generate later:
+
+```go
+config := cfg.DefaultValidatorConfig()
+
+config.SetRoot(homeDir)
+
+viper.SetConfigFile(fmt.Sprintf("%s/%s", homeDir, "config/config.toml"))
+if err := viper.ReadInConfig(); err != nil {
+    log.Fatalf("Reading config: %v", err)
+}
+if err := viper.Unmarshal(config); err != nil {
+    log.Fatalf("Decoding config: %v", err)
+}
+if err := config.ValidateBasic(); err != nil {
+    log.Fatalf("Invalid configuration data: %v", err)
+}
+```
+
+Next, we initialize the Badger database and create an app instance.
 
 ```go
 dbPath := filepath.Join(homeDir, "badger")
@@ -652,20 +727,60 @@ defer func() {
 app := NewKVStoreApplication(db)
 ```
 
-Then we start the ABCI server and add some signal handling to gracefully stop
-it upon receiving SIGTERM or Ctrl-C. CometBFT will act as a client,
-which connects to our server and send us transactions and other messages.
+We use `FilePV`, which is a private validator (i.e. thing which signs consensus
+messages). Normally, you would use `SignerRemote` to connect to an external
+[HSM](https://kb.certus.one/hsm.html).
 
 ```go
-server := abciserver.NewSocketServer(socketAddr, app)
-server.SetLogger(logger)
+pv := privval.LoadFilePV(
+    config.PrivValidatorKeyFile(),
+    config.PrivValidatorStateFile(),
+)
+```
 
-if err := server.Start(); err != nil {
-    fmt.Fprintf(os.Stderr, "error starting socket server: %v", err)
-    os.Exit(1)
+`nodeKey` is needed to identify the node in a p2p network.
+
+```go
+nodeKey, err := nodekey.LoadNodeKey(config.NodeKeyFile())
+if err != nil {
+    return nil, fmt.Errorf("failed to load node's key: %w", err)
 }
-defer server.Stop()
+```
 
+Now we have everything set up to run the CometBFT node. We construct
+a node by passing it the configuration, the logger, a handle to our application and
+the genesis information:
+
+```go
+node, err := nm.NewNode(
+    context.Background(),
+    config,
+    pv,
+    nodeKey,
+    proxy.NewLocalClientCreator(app),
+    nm.DefaultGenesisDocProviderFunc(config),
+    cfg.DefaultDBProvider,
+    nm.DefaultMetricsProvider(config.Instrumentation),
+    logger)
+
+if err != nil {
+    log.Fatalf("Creating node: %v", err)
+}
+```
+
+Finally, we start the node, i.e., the CometBFT service inside our application:
+
+```go
+node.Start()
+defer func() {
+    node.Stop()
+    node.Wait()
+}()
+```
+
+The additional logic at the end of the file allows the program to catch SIGTERM. This means that the node can shut down gracefully when an operator tries to kill the program:
+
+```go
 c := make(chan os.Signal, 1)
 signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 <-c
@@ -700,9 +815,9 @@ cometbft init --home /tmp/cometbft-home
 You should see an output similar to the following:
 
 ```bash
-I[2023-04-25|09:06:34.444] Generated private validator                  module=main keyFile=/tmp/cometbft-home/config/priv_validator_key.json stateFile=/tmp/cometbft-home/data/priv_validator_state.json
-I[2023-04-25|09:06:34.444] Generated node key                           module=main path=/tmp/cometbft-home/config/node_key.json
-I[2023-04-25|09:06:34.444] Generated genesis file                       module=main path=/tmp/cometbft-home/config/genesis.json
+I[2023-25-04|09:06:34.444] Generated private validator                  module=main keyFile=/tmp/cometbft-home/config/priv_validator_key.json stateFile=/tmp/cometbft-home/data/priv_validator_state.json
+I[2023-25-04|09:06:34.444] Generated node key                           module=main path=/tmp/cometbft-home/config/node_key.json
+I[2023-25-04|09:06:34.444] Generated genesis file                       module=main path=/tmp/cometbft-home/config/genesis.json
 ```
 
 Now rebuild the app:
@@ -714,46 +829,24 @@ go build -mod=mod # use -mod=mod to automatically refresh the dependencies
 Everything is now in place to run your application. Run:
 
 ```bash
-./kvstore -kv-home /tmp/badger-home
+./kvstore -cmt-home /tmp/cometbft-home
 ```
 
-The application will start and you should see an output similar to the following:
+The application will start and you should see a continuous output starting with:
 
 ```bash
-badger 2023-04-25 17:01:28 INFO: All 0 tables opened in 0s
-badger 2023-04-25 17:01:28 INFO: Discard stats nextEmptySlot: 0
-badger 2023-04-25 17:01:28 INFO: Set nextTxnTs to 0
-I[2023-04-25|17:01:28.726] service start                                msg="Starting ABCIServer service" impl=ABCIServer
-I[2023-04-25|17:01:28.726] Waiting for new connection...
+badger 2023-04-25 09:08:50 INFO: All 0 tables opened in 0s
+badger 2023-04-25 09:08:50 INFO: Discard stats nextEmptySlot: 0
+badger 2023-04-25 09:08:50 INFO: Set nextTxnTs to 0
+I[2023-04-25|09:08:50.085] service start                                module=proxy msg="Starting multiAppConn service" impl=multiAppConn
+I[2023-04-25|09:08:50.085] service start                                module=abci-client connection=query msg="Starting localClient service" impl=localClient
+I[2023-04-25|09:08:50.085] service start                                module=abci-client connection=snapshot msg="Starting localClient service" impl=localClient
+...
 ```
 
-Then we need to start CometBFT service and point it to our application.
-
-Open a new terminal window and cd into the same folder where the app is running (this is important because when you run the `kvstore` command above
-a file will be created `example.sock` and you need to run `cometbft` in the same folder so that they can communicate via sockets)
-
-Then execute the following command:
+More importantly, the application using CometBFT is producing blocks 🎉🎉 and you can see this reflected in the log output in lines like this:
 
 ```bash
-cometbft node --home /tmp/cometbft-home --proxy_app=unix://example.sock
-```
-
-This should start the full node and connect to our ABCI application, which will be
-reflected in the application output.
-
-```sh
-I[2023-04-25|17:07:08.124] service start                                msg="Starting ABCIServer service" impl=ABCIServer
-I[2023-04-25|17:07:08.124] Waiting for new connection...
-I[2023-04-25|17:08:12.702] Accepted a new connection
-I[2023-04-25|17:08:12.703] Waiting for new connection...
-I[2023-04-25|17:08:12.703] Accepted a new connection
-I[2023-04-25|17:08:12.703] Waiting for new connection...
-```
-
-Also, the application using CometBFT Core is producing blocks  🎉🎉 and you can see this reflected in the log output of the service in lines like this:
-
-```bash
-I[2023-04-25|09:08:52.147] received proposal                            module=consensus proposal="Proposal{2/0 (F518444C0E348270436A73FD0F0B9DFEA758286BEB29482F1E3BEA75330E825C:1:C73D3D1273F2, -1) AD19AE292A45 @ 2023-04-25T12:08:52.143393Z}"
 I[2023-04-25|09:08:52.147] received proposal                            module=consensus proposal="Proposal{2/0 (F518444C0E348270436A73FD0F0B9DFEA758286BEB29482F1E3BEA75330E825C:1:C73D3D1273F2, -1) AD19AE292A45 @ 2023-04-25T12:08:52.143393Z}"
 I[2023-04-25|09:08:52.152] received complete proposal block             module=consensus height=2 hash=F518444C0E348270436A73FD0F0B9DFEA758286BEB29482F1E3BEA75330E825C
 I[2023-04-25|09:08:52.160] finalizing commit of block                   module=consensus height=2 hash=F518444C0E348270436A73FD0F0B9DFEA758286BEB29482F1E3BEA75330E825C root= num_txs=0
@@ -816,6 +909,7 @@ curl "localhost:26657/tx_search?query=\"app.key='cometbft'\""
 ```
 
 The events (`abcitypes.Event`) added in `FinalizeBlock` are indexed by CometBFT (assuming the `kv` indexer is enabled in the CometBFT's configuration).
+
 
 ## Outro
 

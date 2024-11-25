@@ -109,7 +109,7 @@ Column legend:
 #### Remarks on the table
 
 For `evidence` and `consensus`: There is a single project we have identified using APIs from these modules,
-specifically <https://github.com/forbole/juno>. The maintainers of this project have agreed it is not a problem
+specifically https://github.com/forbole/juno. The maintainers of this project have agreed it is not a problem
 for them if we keep the two modules private.
 
 ### Summary

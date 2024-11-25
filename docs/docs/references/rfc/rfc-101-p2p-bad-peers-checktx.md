@@ -265,7 +265,7 @@ If a transaction fails `CheckTx` the
 [first time it is seen](https://github.com/cometbft/cometbft/blob/ff0f98892f24aac11e46aeff2b6d2c0ad816701a/mempool/v0/clist_mempool.go#L409),
  the peer can be banned right there:
 
->>mempool/v0/clist_mempool.go#L409
+>mempool/v0/clist_mempool.go#L409
 ```golang
 
 if (r.CheckTx.Code == abci.CodeTypeOK) && postCheckErr == nil {

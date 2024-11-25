@@ -37,7 +37,7 @@ exists simply to ensure that the test networks have some work during their
 runs. However, the shape and volume of the work is very consistent and is very
 gentle to help ensure test reliability.
 
-We don't need a complex workload generation framework, but being able to have 
+We don't need a complex workload generation framework, but being able to have
 a few different workload shapes available for test networks, both generated and
 hand-crafted, would be useful.
 
@@ -59,7 +59,7 @@ Configurable Generator
 ~~~~~~~~~~~~~~~~~~~~~~
 
 The nightly e2e suite is defined by the `testnet generator
-<https://github.com/tendermint/tendermint/blob/main/test/e2e/generator/generate.go#L13-L65>`_,
+https://github.com/tendermint/tendermint/blob/main/test/e2e/generator/generate.go#L13-L65`_,
 and it's difficult to add dimensions or change the focus of the test suite in
 any way without modifying the implementation of the generator. If the
 generator were more configurable, potentially via a file rather than in
@@ -106,8 +106,8 @@ of these features in the suite.
 
 As of 0.35 there are essentially two end to end tests: the suite of 64
 generated test networks, and the hand crafted `ci.toml` test case. The
-generated test cases help provide systemtic coverage, while the `ci` run 
-provides coverage for a large number of features. 
+generated test cases help provide systemtic coverage, while the `ci` run
+provides coverage for a large number of features.
 
 Reduce Cycle Time
 ~~~~~~~~~~~~~~~~~

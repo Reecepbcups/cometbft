@@ -58,7 +58,7 @@ Some limitations of the current stack include:
   the legacy system must coexist with the new components in 0.35. When the
   legacy stack is removed there are some simple changes that will become
   possible and could reduce the complexity of the new system. (e.g. `#6598
-  <https://github.com/tendermint/tendermint/issues/6598>`_.)
+  https://github.com/tendermint/tendermint/issues/6598`_.)
 
 - the current stack encapsulates a lot of information about peers, and makes it
   difficult to expose that information to monitoring/observability tools. This
@@ -311,6 +311,6 @@ Open question include:
 References
 ----------
 
-- `Tracking Ticket for P2P Refactor Project <https://github.com/tendermint/tendermint/issues/5670>`_
+- `Tracking Ticket for P2P Refactor Project https://github.com/tendermint/tendermint/issues/5670`_
 - `ADR 61: P2P Refactor Scope <../architecture/adr-061-p2p-refactor-scope.md>`_
 - `ADR 62: P2P Architecture and Abstraction <../architecture/adr-062-p2p-architecture.md>`_

@@ -55,12 +55,12 @@ References
 ~~~~~~~~~~
 
 - Legacy Implementation
-  - `publication of events <https://github.com/tendermint/tendermint/blob/main/libs/pubsub/pubsub.go#L333-L345>`_ 
-  - `send operation <https://github.com/tendermint/tendermint/blob/main/libs/pubsub/pubsub.go#L489-L527>`_ 
-  - `send loop <https://github.com/tendermint/tendermint/blob/main/libs/pubsub/pubsub.go#L381-L402>`_
-- Related RFCs 
-  - `RFC 002: IPC Ecosystem <./rfc-002-ipc-ecosystem.md>`_ 
-  - `RFC 003: Performance Questions <./rfc-003-performance-questions.md>`_ 
+  - `publication of events https://github.com/tendermint/tendermint/blob/main/libs/pubsub/pubsub.go#L333-L345`_
+  - `send operation https://github.com/tendermint/tendermint/blob/main/libs/pubsub/pubsub.go#L489-L527`_
+  - `send loop https://github.com/tendermint/tendermint/blob/main/libs/pubsub/pubsub.go#L381-L402`_
+- Related RFCs
+  - `RFC 002: IPC Ecosystem <./rfc-002-ipc-ecosystem.md>`_
+  - `RFC 003: Performance Questions <./rfc-003-performance-questions.md>`_
 
 Discussion
 ----------
@@ -92,12 +92,12 @@ improvements to throughput without requiring large changes.
 Subscription Identification
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Before `#6386 <https://github.com/tendermint/tendermint/pull/6386>`_, all
+Before `#6386 https://github.com/tendermint/tendermint/pull/6386`_, all
 subscriptions were identified by the combination of a client ID and a query,
 and with that change, it became possible to identify all subscription given
 only an ID, but compatibility with the legacy identification means that there's a
 good deal of legacy code as well as client side efficiency that could be
-improved. 
+improved.
 
 Pubsub Changes
 ~~~~~~~~~~~~~~
@@ -107,16 +107,16 @@ backpressure from the event system to impact the core system *or* for one
 subscription to impact the behavior of another area of the
 system. Additionally, because the current system is implemented entirely in
 terms of a collection of buffered channels, the event system (and large
-numbers of subscriptions) can be a source of memory pressure. 
+numbers of subscriptions) can be a source of memory pressure.
 
-These changes could include: 
+These changes could include:
 
 - explicit cancellation and timeouts promulgated from callers (e.g. RPC end
   points, etc,) this should be done using contexts.
 
 - subscription system should be able to spill to disk to avoid putting memory
   pressure on the core behavior of the node (consensus, gossip).
-  
+
 - subscriptions implemented as cursors rather than channels, with either
   condition variables to simulate the existing "push" API or a client side
-  iterator API with some kind of long polling-type interface. 
+  iterator API with some kind of long polling-type interface.

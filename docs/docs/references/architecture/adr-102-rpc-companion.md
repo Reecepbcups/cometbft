@@ -74,13 +74,13 @@ CometBFT RPC -> `http://cosmos.host:26657`
 RPC Companion -> `http://rpc-companion.host:8080/v1`
 
 To make a request for a `block` at height `5` using the CometBFT JSON-RPC endpoint:
-
+```
     curl --header "Content-Type: application/json" --request POST --data '{"method": "block", "params": ["5"], "id": 1}' http://cosmos.host:26657
-
+```
 To make the same request to the RPC Companion endpoint:
-
+```
     curl --header "Content-Type: application/json" --request POST --data '{"method": "block", "params": ["5"], "id": 1}' http://rpc-companion.host:8080/v1
-
+```
 > Note that only the URL and port changes between these two `curl` commands
 
 The RPC Companion will accept JSON-RPC requests, the same way as the CometBFT JSON-RPC endpoint does.

@@ -1,5 +1,5 @@
 ---
-order: 2
+sidebar_position: 1
 ---
 
 # Quick Start
@@ -11,7 +11,7 @@ works and want to get started right away, continue.
 
 ## Install
 
-See the [install guide](install.md).
+See the [install guide](./00-install.md).
 
 ## Initialization
 

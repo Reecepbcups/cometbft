@@ -55,7 +55,7 @@ definition](https://github.com/cometbft/cometbft/blob/main/types/genesis.go)).
         - `max_gas`: Max gas per block.
     - `evidence`
         - `max_age_num_blocks`: Max age of evidence, in blocks. The basic formula
-      for calculating this is: MaxAgeDuration / {average block time}.
+      for calculating this is: MaxAgeDuration / average block time.
         - `max_age_duration`: Max age of evidence, in time. It should correspond
       with an app's "unbonding period" or other similar mechanism for handling
       [Nothing-At-Stake

@@ -77,7 +77,7 @@ applications using it. In particular:
 
   The historical intent of terminating for any error seems to have been that
   all ABCI errors are unrecoverable and hence protocol fatal <!-- markdown-link-check-disable-next-line -->
-  (see [Note 1](#note1)).  In practice, however, this greatly complicates
+  (see [Note 1](#notes)).  In practice, however, this greatly complicates
   debugging a faulty node, since the only way to respond to errors is to panic
   the node which loses valuable context that could have been logged.
 
@@ -85,7 +85,7 @@ applications using it. In particular:
   the server that are not clearly documented anywhere, and it is very easy for
   small changes in both the client and the server to lead to tricky deadlocks,
   panics, race conditions, and slowdowns. As a recent example of this, see
-  <https://github.com/tendermint/tendermint/pull/8581>.
+  https://github.com/tendermint/tendermint/pull/8581.
 
 These limitations are fixable, but one important question is whether it is
 worthwhile to fix them.  We can add request and method identifiers, for
@@ -229,7 +229,7 @@ design.
 
 ## Notes
 
-- <a id=note1></a>**Note 1**: The choice to make all ABCI errors protocol-fatal
+- **Note 1**: The choice to make all ABCI errors protocol-fatal
   was intended to avoid the risk that recovering an application error could
   cause application state to diverge.  Divergence can break consensus, so it's
   essential to avoid it.

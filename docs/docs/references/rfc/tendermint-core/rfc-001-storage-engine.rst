@@ -6,7 +6,7 @@ Changelog
 ---------
 
 - 2021-04-19: Initial Draft (gist)
-- 2021-09-02: Migrated to RFC folder, with some updates  
+- 2021-09-02: Migrated to RFC folder, with some updates
 
 Abstract
 --------
@@ -39,7 +39,7 @@ persistence workloads (e.g. block storage, local peer management information
 like the "address book", crash-recovery log like the WAL.) In addition to
 providing a more ergonomic interface and new semantics, by selecting a single
 storage engine tendermint can use native durability and atomicity features of
-the storage engine and simplify its own implementations. 
+the storage engine and simplify its own implementations.
 
 Data Access Patterns
 ~~~~~~~~~~~~~~~~~~~~
@@ -62,7 +62,7 @@ Project Goals
 ~~~~~~~~~~~~~
 
 As we think about replacing the current persistence layer, we should consider
-the following high level goals: 
+the following high level goals:
 
 - drop dependencies on storage engines that have a CGo dependency.
 
@@ -84,7 +84,7 @@ The following questions remain:
 
 - would tendermint users SDK/etc. benefit from some shared database
   infrastructure?
-  
+
   - In earlier conversations it seemed as if the SDK has selected Badger and
     RocksDB for their storage engines, and it might make sense to be able to
     (optionally) pass a handle to a Badger instance between the libraries in
@@ -138,7 +138,7 @@ Project Scope
 This project will consist of the following aspects:
 
 - selecting a storage engine, and modifying the tendermint codebase to
-  disallow any configuration of the storage engine outside of the tendermint. 
+  disallow any configuration of the storage engine outside of the tendermint.
 
 - remove the dependency on the current tm-db interfaces and replace with some
   internalized, safe, and ergonomic interface for data persistence with all
@@ -149,24 +149,24 @@ This project will consist of the following aspects:
 Next Steps
 ~~~~~~~~~~
 
-- circulate the RFC, and discuss options with appropriate stakeholders. 
-  
+- circulate the RFC, and discuss options with appropriate stakeholders.
+
 - write brief ADR to summarize decisions around technical decisions reached
-  during the RFC phase. 
+  during the RFC phase.
 
 References
 ----------
 
-- `bolddb <https://github.com/etcd-io/bbolt>`_
-- `badger <https://github.com/dgraph-io/badger>`_
-- `badgerdb overview <https://dbdb.io/db/badgerdb>`_
-- `botldb overview <https://dbdb.io/db/boltdb>`_
-- `boltdb vs badger <https://tech.townsourced.com/post/boltdb-vs-badger>`_
-- `bolthold <https://github.com/timshannon/bolthold>`_
-- `badgerhold <https://github.com/timshannon/badgerhold>`_
-- `Pebble <https://github.com/cockroachdb/pebble>`_
-- `SDK Issue Regarding IVAL <https://github.com/cosmos/cosmos-sdk/issues/7100>`_
-- `SDK Discussion about SMT/IVAL <https://github.com/cosmos/cosmos-sdk/discussions/8297>`_
+- `bolddb https://github.com/etcd-io/bbolt`_
+- `badger https://github.com/dgraph-io/badger`_
+- `badgerdb overview https://dbdb.io/db/badgerdb`_
+- `botldb overview https://dbdb.io/db/boltdb`_
+- `boltdb vs badger https://tech.townsourced.com/post/boltdb-vs-badger`_
+- `bolthold https://github.com/timshannon/bolthold`_
+- `badgerhold https://github.com/timshannon/badgerhold`_
+- `Pebble https://github.com/cockroachdb/pebble`_
+- `SDK Issue Regarding IVAL https://github.com/cosmos/cosmos-sdk/issues/7100`_
+- `SDK Discussion about SMT/IVAL https://github.com/cosmos/cosmos-sdk/discussions/8297`_
 
 Discussion
 ----------

@@ -5,14 +5,6 @@ parent:
   description: CometBFT general configuration
   order: 3
 ---
-<!---
-The current CometBFT documentation template is not perfect for reference manuals.
-These style suggestions make it more readable.
---->
-<style>
-.PageContent table {margin: 0;}           /* tables are left-aligned */
-</style>
-
 <!--- Entry template: Use this as a template to add more parameter descriptions.
 ### tablename.property_key <- full path to property in the file
 This is the two-sentence summary of the parameter. It does all kinds of stuff.

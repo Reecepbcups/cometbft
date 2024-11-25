@@ -223,7 +223,7 @@ discussions and need to be addressed. They are (roughly) ordered from easiest to
     this includes the decided block for *h*, and the
     precommit votes also for *deciding h* (which can be extracted from the block at height *h+1*).
 
-    At a given height  *h<sub>c</sub>* (where possibly *h<sub>c</sub> << h<sub>p</sub>*),
+    At a given height  *h<sub>c</sub>* (where possibly *h<sub>c</sub> < h<sub>p</sub>*),
     a full node in *L<sub>h<sub>p</sub></sub>* will consider itself *caught up*, based on the
     (maybe out of date) information it is getting from its peers. Then, the node needs to be ready to
     propose at height *h<sub>c</sub>+1*, which requires having received the vote extensions for

@@ -46,9 +46,9 @@ A more type-safe, understandable Observer pattern is proposed here than what
 currently exists in CometBFT. For example, in the consensus state there are many
 places where events are published via the event bus, e.g.:
 
-- <https://github.com/cometbft/cometbft/blob/091a1f312e5f2f4b183fab1d57d729a6c478ff1f/consensus/state.go#L743>
-- <https://github.com/cometbft/cometbft/blob/091a1f312e5f2f4b183fab1d57d729a6c478ff1f/consensus/state.go#L964>
-- <https://github.com/cometbft/cometbft/blob/091a1f312e5f2f4b183fab1d57d729a6c478ff1f/consensus/state.go#L971>
+- https://github.com/cometbft/cometbft/blob/091a1f312e5f2f4b183fab1d57d729a6c478ff1f/consensus/state.go#L743
+- https://github.com/cometbft/cometbft/blob/091a1f312e5f2f4b183fab1d57d729a6c478ff1f/consensus/state.go#L964
+- https://github.com/cometbft/cometbft/blob/091a1f312e5f2f4b183fab1d57d729a6c478ff1f/consensus/state.go#L971
 - etc.
 
 All of these event publishing methods, not only for consensus state but for

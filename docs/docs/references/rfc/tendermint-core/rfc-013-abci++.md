@@ -236,7 +236,7 @@ Proposed
 
 ## References
 
-Reference for IPC delay constants: <http://pages.cs.wisc.edu/~adityav/Evaluation_of_Inter_Process_Communication_Mechanisms.pdf>
+Reference for IPC delay constants: http://pages.cs.wisc.edu/~adityav/Evaluation_of_Inter_Process_Communication_Mechanisms.pdf
 
 ### Short list of blocked features / scaling improvements with required ABCI++ Phases
 

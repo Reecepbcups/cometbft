@@ -67,10 +67,10 @@ Note: there are many other formats out there like [logfmt](https://brandur.org/l
 
 This logger could be implemented using any logger - [logrus](https://github.com/sirupsen/logrus), [go-kit/log](https://github.com/go-kit/kit/tree/master/log), [zap](https://github.com/uber-go/zap), log15 so far as it
 
-a) supports coloring output<br>
-b) is moderately fast (buffering) <br>
-c) conforms to the new interface or adapter could be written for it <br>
-d) is somewhat configurable<br>
+a) supports coloring output<br />
+b) is moderately fast (buffering) <br />
+c) conforms to the new interface or adapter could be written for it <br />
+d) is somewhat configurable<br />
 
 go-kit is my favorite so far. Check out how easy it is to color errors in red https://github.com/go-kit/kit/blob/master/log/term/example_test.go#L12. Although, coloring could only be applied to the whole string :(
 

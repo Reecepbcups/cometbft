@@ -83,7 +83,7 @@ We propose introducing a new implementation, `CryptoProviderPV`, which will unif
 ```mermaid
 classDiagram
     class PrivValidator {
-        <<interface>>
+        <interface>
     }
 
     class FilePV {
@@ -110,11 +110,11 @@ classDiagram
 ```mermaid
 classDiagram
     class PrivValidator {
-        <<interface>>
+        <interface>
     }
 
     class CryptoProvider {
-        <<interface>>
+        <interface>
     }
 
     class CryptoProviderPV {

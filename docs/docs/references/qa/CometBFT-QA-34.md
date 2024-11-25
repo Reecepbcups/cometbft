@@ -414,6 +414,6 @@ A conclusion of these tests is shown in the following table, along with the comm
 | Scenario | Date | Version | Result |
 |--|--|--|--|
 |CometBFT Homogeneous network | 2023-02-08 | 3b783434f26b0e87994e6a77c5411927aad9ce3f | Pass
-|1/2 Tendermint Core <br> 1/2 CometBFT | 2023-02-14 | CometBFT: 3b783434f26b0e87994e6a77c5411927aad9ce3f <br>Tendermint Core: 66c2cb63416e66bff08e11f9088e21a0ed142790 | Pass|
-|1/3 Tendermint Core <br> 2/3 CometBFT | 2023-02-08 | CometBFT: 3b783434f26b0e87994e6a77c5411927aad9ce3f <br>Tendermint Core: 66c2cb63416e66bff08e11f9088e21a0ed142790 | Pass|
-|2/3 Tendermint Core <br> 1/3 CometBFT | 2023-02-08 | CometBFT: 3b783434f26b0e87994e6a77c5411927aad9ce3f <br>Tendermint Core: 66c2cb63416e66bff08e11f9088e21a0ed142790  | Pass |
+|1/2 Tendermint Core <br/> 1/2 CometBFT | 2023-02-14 | CometBFT: 3b783434f26b0e87994e6a77c5411927aad9ce3f <br/>Tendermint Core: 66c2cb63416e66bff08e11f9088e21a0ed142790 | Pass|
+|1/3 Tendermint Core <br/> 2/3 CometBFT | 2023-02-08 | CometBFT: 3b783434f26b0e87994e6a77c5411927aad9ce3f <br/>Tendermint Core: 66c2cb63416e66bff08e11f9088e21a0ed142790 | Pass|
+|2/3 Tendermint Core <br/> 1/3 CometBFT | 2023-02-08 | CometBFT: 3b783434f26b0e87994e6a77c5411927aad9ce3f <br/>Tendermint Core: 66c2cb63416e66bff08e11f9088e21a0ed142790  | Pass |

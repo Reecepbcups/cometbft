@@ -181,6 +181,7 @@ It should block on unbuffered channels (for use with internal consensus events
 in the consensus tests) and not block on the buffered ones. If a client is too
 slow to keep up with it's messages, it's subscription is terminated:
 
+```
 for each subscription {
     out := subscription.outChan
     if cap(out) == 0 {
@@ -199,6 +200,7 @@ for each subscription {
         }
     }
 }
+```
 
 ### How this new design solves the current issues?
 
